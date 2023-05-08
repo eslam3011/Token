@@ -1,7 +1,5 @@
 import express from 'express';
 import puppeteer from "puppeteer"
-import { exec } from "node:child_process"
-import { promisify } from "node:util"
 import axios from 'axios';
 
 const app = express();
@@ -10,12 +8,10 @@ let token = ''
 
 setInterval(async () => {
   // find path to crhomium
-const { stdout: chromiumPath } = await promisify(exec)("which chromium")
 
 const browser = await puppeteer.launch({
   headless: false,
-  args: ["--no-sandbox", "--disable-setuid-sandbox"],
-  executablePath: chromiumPath.trim()
+  args: ["--no-sandbox", "--disable-setuid-sandbox"]
 });
 const pages = await browser.pages(); // Get an array of all open pages
 const page = pages[0]; // Get the current active page (first in the array)
